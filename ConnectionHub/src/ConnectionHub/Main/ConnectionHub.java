@@ -11,6 +11,7 @@ public class ConnectionHub {
 	    //get folder configuration
 		String configFilesPath = fileConfig.getProperty("SourceConfigPath");
 		AppFile appFile = new AppFile();
+		//Hola Fede
 		appFile.setPath(configFilesPath);
 		appFile.processConfigFiles();
 		
