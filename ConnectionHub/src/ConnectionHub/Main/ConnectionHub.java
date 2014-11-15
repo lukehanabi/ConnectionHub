@@ -8,7 +8,7 @@ public class ConnectionHub {
 	public static void main(String[] args) {
 		ConfigFile fileConfig = new ConfigFile();
 		fileConfig.setConfigFileName("config.properties");
-				
+	    //get folder
 		String configFilesPath = fileConfig.getProperty("SourceConfigPath");
 		AppFile appFile = new AppFile();
 		appFile.setPath(configFilesPath);
