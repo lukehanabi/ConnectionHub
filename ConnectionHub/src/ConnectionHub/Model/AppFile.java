@@ -10,7 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 public class AppFile {
@@ -25,59 +24,43 @@ public class AppFile {
 		Path = path;
 	}
 	
-	public void processConfigFiles () {
-		File configFilesDir = new File(this.Path);
-		XmlFilter xmlFilter = new XmlFilter();
+	public void processConfigFile () {
+		File configFile = new File(this.Path + "files.config.xml");
 		
-		if (configFilesDir.isDirectory()) {
-			for (File xmlFile :configFilesDir.listFiles(xmlFilter)){
-				System.out.println("Reading config file: " + xmlFile.getName());
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = null;
+		Document xmlDoc = null;
+		
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}		
+		try {
+			xmlDoc = dBuilder.parse(configFile);
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {					
+			e.printStackTrace();
+		}
+		
+		xmlDoc.getDocumentElement().normalize();
+		Element docEle = xmlDoc.getDocumentElement();
+
+		//get a nodelist of elements
+		NodeList nl = docEle.getElementsByTagName("configFile");
+
+			for(int i = 0 ; i < nl.getLength();i++) {
+		
+				//get the employee element
+				Element eElement = (Element)nl.item(i);
 				
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dBuilder = null;
-				Document xmlDoc = null;
-				try {
-					dBuilder = dbFactory.newDocumentBuilder();
-				} catch (ParserConfigurationException e) {
-					e.printStackTrace();
-				}		
-				try {
-					xmlDoc = dBuilder.parse(xmlFile);
-				} catch (SAXException e) {
-					e.printStackTrace();
-				} catch (IOException e) {					
-					e.printStackTrace();
-				}
-								
-				xmlDoc.getDocumentElement().normalize();
-				NodeList nList = xmlDoc.getElementsByTagName("configFile");
-				
-				for (int temp = 0; temp < nList.getLength(); temp++) {
-					 
-					Node nNode = nList.item(temp);
-					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			 
-						Element eElement = (Element) nNode;
-			 
-						System.out.println("Mask : " + eElement.getElementsByTagName("mask").item(0).getTextContent());
-						System.out.println("Type : " + eElement.getElementsByTagName("type").item(0).getTextContent());
-						System.out.println("Source : " + eElement.getElementsByTagName("source").item(0).getTextContent());
-						System.out.println("Destination : " + eElement.getElementsByTagName("destination").item(0).getTextContent());
-						
-						//Verify if the type is Folder
-						if (eElement.getElementsByTagName("type").item(0).getTextContent() == "FOLDER") {
-							NetFile file = new NetFile();
-							file.setMask(eElement.getElementsByTagName("mask").item(0).getTextContent());
-							file.setSourcePath(eElement.getElementsByTagName("source").item(0).getTextContent());
-							file.setDestinationPath(eElement.getElementsByTagName("destination").item(0).getTextContent());
-							file.Move();
-						}
-					}
-				}
-				
-			}
-		} else {
-			System.out.println("Configuration Files folder incorrect... " + configFilesDir.getAbsolutePath());			
+				System.out.println("Mask : " + eElement.getElementsByTagName("mask").item(0).getTextContent());
+				System.out.println("Type : " + eElement.getElementsByTagName("type").item(0).getTextContent());
+				System.out.println("Source : " + eElement.getElementsByTagName("source").item(0).getTextContent());
+				System.out.println("Destination : " + eElement.getElementsByTagName("destination").item(0).getTextContent());
+		
+				FileFactory.getMoveFile(eElement).move();
 		}
 	}
 	

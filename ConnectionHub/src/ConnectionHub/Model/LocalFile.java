@@ -2,7 +2,8 @@ package ConnectionHub.Model;
 
 import java.io.File;
 
-public class NetFile implements fileMask{
+
+public class LocalFile implements MoveFile{
 
 	String sourcePath;
 	String destinationPath;
@@ -32,8 +33,8 @@ public class NetFile implements fileMask{
 		this.mask = mask;
 	}
 
-	@Override
-	public void Move() {
+    @Override
+	public void move() {
 		File[] filesFound;
 						
 		File fileSearch = new File(this.sourcePath);
@@ -44,7 +45,7 @@ public class NetFile implements fileMask{
 						
 			for (File f : filesFound) {
 				System.out.println(f.getName());
-				f.renameTo(new File(this.destinationPath + "/" + f.getName()));
+				f.renameTo(new File(this.destinationPath + f.getName()));
 				System.out.println("File moved to " + this.destinationPath);
 			}
 		}		

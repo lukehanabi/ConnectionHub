@@ -1,6 +1,6 @@
 package ConnectionHub.Model;
 
-public class FTPFile implements fileMask{
+public class FTPFile implements MoveFile {
 	
 	String sourcePath;
 	String destinationPath;
@@ -58,9 +58,8 @@ public class FTPFile implements fileMask{
 	}
 
 	@Override
-	public void Move() {
-		// TODO Auto-generated method stub
-		
+	public void move() {
+		SendFile.startFTP(this);
 	}
 
 }

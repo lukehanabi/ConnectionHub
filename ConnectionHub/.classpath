@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/federicofernan/Documents/libraries/commons-net-3.3/commons-net-3.3.jar"/>
 	<classpathentry kind="lib" path="/Users/federicofernan/Documents/libraries/commons-vfs-2.0/commons-vfs2-2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/federicofernan/Documents/libraries/commons-logging-1.2/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/federicofernan/Documents/libraries/jsch-0.1.51.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
